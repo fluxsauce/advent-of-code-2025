@@ -13,29 +13,31 @@ static func populate_grid(raw: String) -> Array:
 	return grid
 
 
-static func find_largest_joltage(row: Array) -> int:
+static func find_largest_joltage(row: Array, places: int) -> int:
 	var digits: Array = []
-	var position_first: int = 0
-	# Find the first number; it is the highest number between 0 and the second to last position
-	for position in range(0, row.size() - 1):
-		if digits.size() == 0:
-			digits.append(row[position])
-			position_first = position
-		elif row[position] > digits[0]:
-			digits[0] = row[position]
-			position_first = position
-	# Find the second number;
-	for position in range(position_first + 1, row.size()):
-		if digits.size() == 1:
-			digits.append(row[position])
-		elif row[position] > digits[1]:
-			digits[1] = row[position]
+	var last_position: int = -1
+	# Keep track of how many of these scans we should do.
+	for place in range(0, places):
+		# Start the search after the last thing found.
+		last_position += 1
+		# Scan from the last position found to the end, but with padding.
+		for position in range(last_position, row.size() - (places - digits.size()) + 1):
+			var current_digit: int = row[position]
+			# Haven't found anything yet.
+			if digits.size() == place:
+				digits.append(current_digit)
+				last_position = position
+			elif current_digit > digits[place]:
+				# Overwrite.
+				digits[place] = current_digit
+				# Track.
+				last_position = position
 
 	return int("".join(digits))
 
 
-static func total_output_joltage(grid: Array) -> int:
+static func total_output_joltage(grid: Array, places: int) -> int:
 	var sum: int = 0
 	for i in grid.size():
-		sum += find_largest_joltage(grid[i])
+		sum += find_largest_joltage(grid[i], places)
 	return sum
