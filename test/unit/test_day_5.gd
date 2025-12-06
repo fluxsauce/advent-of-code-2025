@@ -23,3 +23,11 @@ func test_count_fresh_sample() -> void:
 func test_count_fresh() -> void:
 	var input: String = Helpers.get_text_file_content("res://day_05/day_5_input.txt")
 	assert_eq(Day5.count_fresh(input), 563)
+
+func test_count_from_ranges_sample() -> void:
+	var input: Array[Array] = Day5.parse_fresh_ranges(Helpers.get_text_file_content("res://day_05/day_5_input_sample.txt"))
+	assert_eq(Day5.count_from_ranges(input), 14)
+
+func test_count_from_ranges() -> void:
+	var input: Array[Array] = Day5.parse_fresh_ranges(Helpers.get_text_file_content("res://day_05/day_5_input.txt"))
+	assert_eq(Day5.count_from_ranges(input), 14)

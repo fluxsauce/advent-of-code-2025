@@ -35,6 +35,14 @@ static func check_ranges_if_fresh(id: int, fresh_ranges: Array[Array]) -> bool:
 			return true
 	return false
 
+static func get_first_range_index(id: int, fresh_ranges: Array[Array]) -> int:
+	var fresh_ranges_size: int = fresh_ranges.size()
+	for index:int in range(fresh_ranges_size):
+		if is_fresh(id, fresh_ranges[index]):
+			return index
+	# Impossible to get here
+	return -1
+
 
 static func is_fresh(id: int, fresh_range: Array) -> bool:
 	return id >= fresh_range[0] and id <= fresh_range[1]
@@ -48,3 +56,17 @@ static func count_fresh(raw: String) -> int:
 		if check_ranges_if_fresh(id, fresh_ranges):
 			fresh.append(id)
 	return fresh.size()
+
+
+static func count_from_ranges(fresh_ranges: Array[Array]) -> int:
+	var count:int = 0
+	var fresh_ranges_size:int = fresh_ranges.size()
+	for index in range(fresh_ranges_size):
+		var fresh_range: Array = fresh_ranges[index]
+		# See if it's unique.
+		# Update: can't do that.
+		for id in range(fresh_range[0], fresh_range[1] + 1):
+			var first_range_index:int = get_first_range_index(id, fresh_ranges)
+			if first_range_index == index:
+				count += 1
+	return count
