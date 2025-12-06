@@ -2,10 +2,6 @@ class_name Day4
 extends Node
 
 
-func _ready() -> void:
-	pass  # Replace with function body.
-
-
 static func sparse_grid_from_raw(raw: String) -> Dictionary:
 	var sparse_grid: Dictionary = {}
 	var raw_rows: PackedStringArray = raw.split("\n")
@@ -47,8 +43,8 @@ static func minesweeper_render(sparse_grid: Dictionary) -> String:
 		if sparse_grid[location] == "@":
 			ret_val += str(neighbor_adjacent_roll_count(sparse_grid, location))
 		else:
-			ret_val += "."
-	return ret_val
+			ret_val += sparse_grid[location]
+	return ret_val + "\n"
 
 
 static func neighbor_adjacent_roll_count(sparse_grid: Dictionary, location: Vector2i) -> int:
@@ -65,10 +61,35 @@ static func roll_can_be_accessed(sparse_grid: Dictionary, location: Vector2i) ->
 	return adjacent_roll_count < 4
 
 
-static func count_accessible_rolls(sparse_grid: Dictionary) -> int:
+static func count_rolls(sparse_grid: Dictionary, accessible: bool = false) -> int:
 	var count: int = 0
 	for location: Vector2i in sparse_grid:
 		if sparse_grid[location] == "@":
-			if roll_can_be_accessed(sparse_grid, location):
+			if !accessible or (accessible and roll_can_be_accessed(sparse_grid, location)):
 				count += 1
 	return count
+
+
+static func remove_accessible_rolls(sparse_grid: Dictionary) -> Dictionary:
+	var locations_to_remove: Array[Vector2i] = []
+	for location: Vector2i in sparse_grid:
+		if sparse_grid[location] == "@":
+			if roll_can_be_accessed(sparse_grid, location):
+				locations_to_remove.append(location)
+	if locations_to_remove.size() > 0:
+		for location: Vector2i in locations_to_remove:
+			sparse_grid[location] = "x"
+	return sparse_grid
+
+
+static func clean_up_removals(sparse_grid: Dictionary) -> Dictionary:
+	for location: Vector2i in sparse_grid:
+		if sparse_grid[location] == "x":
+			sparse_grid[location] = "."
+	return sparse_grid
+
+
+static func remove_until_empty(sparse_grid: Dictionary) -> Dictionary:
+	while count_rolls(sparse_grid, true) > 0:
+		sparse_grid = clean_up_removals(remove_accessible_rolls(sparse_grid))
+	return sparse_grid
