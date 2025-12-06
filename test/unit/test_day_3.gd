@@ -3,7 +3,7 @@ extends GutTest
 
 func test_find_largest_joltage_sample() -> void:
 	var grid_sample: Array = Day3.populate_grid(
-		Helpers.get_text_file_content("res://day_3_input_sample.txt")
+		Helpers.get_text_file_content("res://day_03/day_3_input_sample.txt")
 	)
 	var expected: Array = [98, 89, 78, 92]
 	for i in grid_sample.size():
@@ -13,7 +13,7 @@ func test_find_largest_joltage_sample() -> void:
 
 func test_total_output_joltage_sample() -> void:
 	var grid_sample: Array = Day3.populate_grid(
-		Helpers.get_text_file_content("res://day_3_input_sample.txt")
+		Helpers.get_text_file_content("res://day_03/day_3_input_sample.txt")
 	)
 	var actual_sum: int = Day3.total_output_joltage(grid_sample, 2)
 	assert_eq(actual_sum, 357, "should match the sample maximum joltage sum")
@@ -21,7 +21,27 @@ func test_total_output_joltage_sample() -> void:
 
 func test_total_output_joltage() -> void:
 	var grid_sample: Array = Day3.populate_grid(
-		Helpers.get_text_file_content("res://day_3_input.txt")
+		Helpers.get_text_file_content("res://day_03/day_3_input.txt")
 	)
 	var actual_sum: int = Day3.total_output_joltage(grid_sample, 2)
 	assert_eq(actual_sum, 17535, "should match the input maximum joltage sum")
+
+
+func test_total_output_joltage_safety_override_sample() -> void:
+	var grid_sample: Array = Day3.populate_grid(
+		Helpers.get_text_file_content("res://day_03/day_3_input_sample.txt")
+	)
+	var actual_sum: int = Day3.total_output_joltage(grid_sample, 12)
+	assert_eq(
+		actual_sum, 3121910778619, "should match the sample maximum joltage safety override sum"
+	)
+
+
+func test_total_output_joltage_safety_override() -> void:
+	var grid_sample: Array = Day3.populate_grid(
+		Helpers.get_text_file_content("res://day_03/day_3_input.txt")
+	)
+	var actual_sum: int = Day3.total_output_joltage(grid_sample, 12)
+	assert_eq(
+		actual_sum, 173577199527257, "should match the input maximum joltage safety override sum"
+	)

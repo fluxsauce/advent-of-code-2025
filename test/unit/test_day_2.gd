@@ -42,7 +42,7 @@ func test_prepare_input_row() -> void:
 
 func test_prepare_input() -> void:
 	var result: Array = calculator.prepare_input(
-		calculator.get_text_file_content("res://day_2_input_sample.txt")
+		calculator.get_text_file_content("res://day_02/day_2_input_sample.txt")
 	)
 	assert_eq(
 		result,
@@ -123,13 +123,13 @@ func test_raw_to_sum_of_invalid_ids() -> void:
 	assert_eq(calculator.raw_to_sum_of_invalid_ids("11-22,95-115"), 132)
 	assert_eq(
 		calculator.raw_to_sum_of_invalid_ids(
-			calculator.get_text_file_content("res://day_2_input_sample.txt")
+			calculator.get_text_file_content("res://day_02/day_2_input_sample.txt")
 		),
 		1227775554
 	)
 	assert_eq(
 		calculator.raw_to_sum_of_invalid_ids(
-			calculator.get_text_file_content("res://day_2_input.txt")
+			calculator.get_text_file_content("res://day_02/day_2_input.txt")
 		),
 		12586854255
 	)
@@ -141,13 +141,13 @@ func test_raw_to_sum_of_silly_ids() -> void:
 	assert_eq(calculator.raw_to_sum_of_silly_ids("11-22,95-115"), 243)
 	assert_eq(
 		calculator.raw_to_sum_of_silly_ids(
-			calculator.get_text_file_content("res://day_2_input_sample.txt")
+			calculator.get_text_file_content("res://day_02/day_2_input_sample.txt")
 		),
 		4174379265
 	)
 	assert_eq(
 		calculator.raw_to_sum_of_silly_ids(
-			calculator.get_text_file_content("res://day_2_input.txt")
+			calculator.get_text_file_content("res://day_02/day_2_input.txt")
 		),
 		17298174201
 	)

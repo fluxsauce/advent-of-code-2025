@@ -32,7 +32,7 @@ func _ready() -> void:
 
 
 func get_text_file_content():
-	var file = FileAccess.open("res://day_1_input.txt", FileAccess.READ)
+	var file = FileAccess.open("res://day_01/day_1_input.txt", FileAccess.READ)
 	var content = file.get_as_text()
 	file.close()
 	return content.split("\n")
