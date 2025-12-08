@@ -45,6 +45,20 @@ static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> 
 			data.numbers[index].append(snippet)
 			index += 1
 
+	if cephalopod:
+		var replacement_numbers: Dictionary = {}
+		for index in range(data.symbols.size()):
+			var numbers:Array = data.numbers[index]
+			var new_numbers:Dictionary = {}
+			for number:String in numbers:
+				for char_index:int in number.length():
+					if !new_numbers.has(char_index):
+						new_numbers[char_index] = ""
+					new_numbers[char_index] += number[char_index]
+			replacement_numbers[index] = new_numbers.values()
+			replacement_numbers[index].reverse()
+		data.numbers = replacement_numbers
+
 	return data
 
 static func calculate_problem(data: Dictionary, index: int) -> int:
