@@ -2,19 +2,6 @@ class_name Day4
 extends Node
 
 
-static func sparse_grid_from_raw(raw: String) -> Dictionary:
-	var sparse_grid: Dictionary = {}
-	var raw_rows: PackedStringArray = raw.split("\n")
-	var y: int = 0
-	for raw_row in raw_rows:
-		var x: int = 0
-		for character in raw_row:
-			sparse_grid[Vector2i(x, y)] = character
-			x += 1
-		y += 1
-	return sparse_grid
-
-
 static func get_neighbors(location: Vector2i) -> Array[Vector2i]:
 	var neighbors: Array[Vector2i] = []
 	var offsets: Array[Vector2i] = [
