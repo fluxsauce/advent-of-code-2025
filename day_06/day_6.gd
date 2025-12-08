@@ -2,27 +2,48 @@ class_name Day6
 extends Node
 
 
-static func parse_problems_and_operators(raw: String) -> Dictionary:
+static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> Dictionary:
 	var rows: PackedStringArray = raw.split("\n")
 
 	var data: Dictionary = {
 		numbers = {},
 		symbols = [],
+		starts = [],
+		length = [],
 	}
 
-	for symbol in rows[-1].split(" "):
-		if symbol != "":
-			data.symbols.append(symbol)
+	# Find width of column.
+	var symbols:String = rows[-1]
 	rows.remove_at(rows.size() - 1)
 
+	var working_length:int = 0
+	for index:int in range(symbols.length()):
+		var character:String = symbols[index]
+		if character != " ":
+			data.starts.append(index)
+			data.symbols.append(character)
+			if index > 0:
+				data.length.append(working_length - 1)
+			working_length = 0
+		working_length += 1
+
+	# Special case: because of end of line trimming, we'll have to calculate the length.
+	var last_length: int = 0
+	for row in rows:
+		var current_length: int = row.length() - data.starts[-1]
+		if current_length > last_length:
+			last_length = current_length
+	data.length.append(last_length)
+
+	# Get the values.
 	for row in rows:
 		var index:int = 0
-		for chunk in row.split(" "):
-			if chunk:
-				if !data.numbers.has(index):
-					data.numbers[index] = []
-				data.numbers[index].append(int(chunk))
-				index += 1
+		for start:int in data.starts:
+			if !data.numbers.has(index):
+				data.numbers[index] = []
+			var snippet: String = "%-*s" % [data.length[index], row.substr(start, data.length[index])]
+			data.numbers[index].append(snippet)
+			index += 1
 
 	return data
 
@@ -31,13 +52,13 @@ static func calculate_problem(data: Dictionary, index: int) -> int:
 	var numbers:Array = data.numbers[index]
 	if symbol == '*':
 		var product:int = 1
-		for number:int in numbers:
-			product *= number
+		for number:String in numbers:
+			product *= int(number)
 		return product
 	if symbol == '+':
 		var sum:int = 0
-		for number:int in numbers:
-			sum += number
+		for number:String in numbers:
+			sum += int(number)
 		return sum
 	return 0
 
