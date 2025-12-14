@@ -5,7 +5,6 @@ func test_sparse_grid() -> void:
 	var sparse_grid: Dictionary = Helpers.sparse_grid_from_raw(
 		Helpers.get_text_file_content("res://day_07/day_7_input_sample.txt")
 	)
-	print(Helpers.sparse_grid_render(sparse_grid))
 	assert_eq(sparse_grid[Vector2i(7, 0)], "S")
 
 
