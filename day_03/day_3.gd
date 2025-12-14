@@ -1,5 +1,5 @@
 class_name Day3
-extends Node
+extends RefCounted
 
 
 static func populate_grid(raw: String) -> Array:

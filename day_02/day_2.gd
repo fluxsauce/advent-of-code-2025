@@ -1,5 +1,5 @@
 class_name Day2
-extends Node
+extends RefCounted
 
 var regex_invalid: RegEx
 var regex_silly: RegEx
@@ -10,19 +10,21 @@ func _init() -> void:
 	# digits repeated twice. So, 55 (5 twice), 6464 (64 twice), and 123123 (123 twice)
 	# would all be invalid IDs.
 	regex_invalid = RegEx.new()
-	regex_invalid.compile("^(\\d{1,})\\1{1}$")
+	if regex_invalid.compile("^(\\d{1,})\\1{1}$") != OK:
+		push_error("Broken Invalid ID RegEx")
 	# An ID is invalid if it is made only of some sequence of digits repeated at least twice.
 	# So, 12341234 (1234 two times), 123123123 (123 three times), 1212121212 (12 five times),
 	# and 1111111 (1 seven times) are all invalid IDs.
 	regex_silly = RegEx.new()
-	regex_silly.compile("^(\\d{1,})\\1{1,}$")
+	if regex_silly.compile("^(\\d{1,})\\1{1,}$") != OK:
+		push_error("Broken silly ID RegEx")
 
 
 func prepare_input_row(raw: String) -> Array:
-	return Array(raw.split("-")).map(func(value): return int(value))
+	return Array(raw.split("-")).map(func(value: String) -> int: return int(value))
 
 
-func prepare_input(string: String):
+func prepare_input(string: String) -> Array:
 	return Array(string.split(",", false)).map(prepare_input_row)
 
 
@@ -51,23 +53,16 @@ func parse_raw_to_id_ranges(raw: String) -> Array:
 
 
 func raw_to_sum_of_invalid_ids(raw: String) -> int:
-	var sum = 0
-	for range_row in parse_raw_to_id_ranges(raw):
-		for id in only_invalid_ids(range_row):
+	var sum: int = 0
+	for range_row: Array in parse_raw_to_id_ranges(raw):
+		for id: int in only_invalid_ids(range_row):
 			sum += id
 	return sum
 
 
 func raw_to_sum_of_silly_ids(raw: String) -> int:
-	var sum = 0
-	for range_row in parse_raw_to_id_ranges(raw):
-		for id in only_silly_ids(range_row):
+	var sum: int = 0
+	for range_row: Array in parse_raw_to_id_ranges(raw):
+		for id: int in only_silly_ids(range_row):
 			sum += id
 	return sum
-
-
-func get_text_file_content(file_path):
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	var content = file.get_as_text()
-	file.close()
-	return content

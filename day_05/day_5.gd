@@ -1,5 +1,5 @@
 class_name Day5
-extends Node
+extends RefCounted
 
 
 static func pack_fresh_range(index_a: int, ranges: Array) -> Array:

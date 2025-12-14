@@ -1,60 +1,71 @@
 extends GutTest
 
 
+func test_dial_count_ends_on_zero_sample() -> void:
+	var moves: Array = Helpers.get_text_file_content("res://day_01/day_1_input_sample.txt").split(
+		"\n"
+	)
+	assert_eq(Day1.dial_count_ends_on_zero(moves), 3)
+
+
+func test_dial_count_ends_on_zero() -> void:
+	var moves: Array = Helpers.get_text_file_content("res://day_01/day_1_input.txt").split("\n")
+	assert_eq(Day1.dial_count_ends_on_zero(moves), 1165)
+
+
 func test_calculate_final_position() -> void:
-	assert_eq(Day1Pt2.calculate_final_position(0, -5), 95, "should wrap once negative")
-	assert_eq(Day1Pt2.calculate_final_position(0, 105), 5, "should wrap once positive")
-	assert_eq(Day1Pt2.calculate_final_position(0, -105), 95, "should wrap twice negative")
-	assert_eq(Day1Pt2.calculate_final_position(0, 5), 5, "no wrap positive")
-	assert_eq(Day1Pt2.calculate_final_position(0, 0), 0, "zero is zero")
+	assert_eq(Day1.calculate_final_position(0, -5), 95)
+	assert_eq(Day1.calculate_final_position(0, 105), 5)
+	assert_eq(Day1.calculate_final_position(0, -105), 95)
+	assert_eq(Day1.calculate_final_position(0, 5), 5)
+	assert_eq(Day1.calculate_final_position(0, 0), 0)
 
 
 func test_count_times_zero_touched() -> void:
-	assert_eq(Day1Pt2.count_times_zero_touched(0, 5), 0, "shouldn't touch zero from 0 to 5")
-	assert_eq(Day1Pt2.count_times_zero_touched(0, -5), 0, "shouldn't touch zero from 0 - 5 to 95")
-	assert_eq(Day1Pt2.count_times_zero_touched(0, 105), 1, "should touch zero once from 0 to 105")
+	assert_eq(Day1.count_times_zero_touched(0, 5), 0)
+	assert_eq(Day1.count_times_zero_touched(0, -5), 0)
+	assert_eq(Day1.count_times_zero_touched(0, 105), 1)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, -105),
+		Day1.count_times_zero_touched(0, -105),
 		1,
-		"should touch zero once starting on 0 and ending on -105"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, -205),
+		Day1.count_times_zero_touched(0, -205),
 		2,
-		"should touch zero twice starting on 0 and ending on -205"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(5, -100),
+		Day1.count_times_zero_touched(5, -100),
 		1,
-		"should touch zero once starting on 5 and ending on -95"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(5, -5),
+		Day1.count_times_zero_touched(5, -5),
 		1,
-		"should touch zero once starting on 5 and ending on 0"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, -100),
+		Day1.count_times_zero_touched(0, -100),
 		1,
-		"should touch zero once starting on 0 and ending on 0 by a negative 100"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, 100),
+		Day1.count_times_zero_touched(0, 100),
 		1,
-		"should touch zero once starting on 0 and ending on 0 by a positive 100"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, -500),
+		Day1.count_times_zero_touched(0, -500),
 		5,
-		"should touch zero once starting on 0 and ending on 0 by a negative 500"
 	)
 	assert_eq(
-		Day1Pt2.count_times_zero_touched(0, 500),
+		Day1.count_times_zero_touched(0, 500),
 		5,
-		"should touch zero once starting on 0 and ending on 0 by a positive 500"
 	)
 
 
-func test_everything() -> void:
-	const SEQUENCE = ["L68", "L30", "R48", "L5", "R60", "L55", "L1", "L99", "R14", "L82"]
-	assert_eq(Day1Pt2.count_zeroes_from_sequence(SEQUENCE), 6, "sequence must touch zero 6 times")
+func test_count_zeroes_sample() -> void:
+	var moves: Array = Helpers.get_text_file_content("res://day_01/day_1_input_sample.txt").split(
+		"\n"
+	)
+	assert_eq(Day1.count_zeroes_from(moves), 6)
+
+
+func test_count_zeroes() -> void:
+	var moves: Array = Helpers.get_text_file_content("res://day_01/day_1_input.txt").split("\n")
+	assert_eq(Day1.count_zeroes_from(moves), 6496)

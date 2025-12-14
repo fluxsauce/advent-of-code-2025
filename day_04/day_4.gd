@@ -1,5 +1,5 @@
 class_name Day4
-extends Node
+extends RefCounted
 
 
 static func get_neighbors(location: Vector2i) -> Array[Vector2i]:

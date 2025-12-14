@@ -1,5 +1,5 @@
 class_name Day6
-extends Node
+extends RefCounted
 
 
 static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> Dictionary:
@@ -13,12 +13,12 @@ static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> 
 	}
 
 	# Find width of column.
-	var symbols:String = rows[-1]
+	var symbols: String = rows[-1]
 	rows.remove_at(rows.size() - 1)
 
-	var working_length:int = 0
-	for index:int in range(symbols.length()):
-		var character:String = symbols[index]
+	var working_length: int = 0
+	for index: int in range(symbols.length()):
+		var character: String = symbols[index]
 		if character != " ":
 			data.starts.append(index)
 			data.symbols.append(character)
@@ -37,21 +37,23 @@ static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> 
 
 	# Get the values.
 	for row in rows:
-		var index:int = 0
-		for start:int in data.starts:
+		var index: int = 0
+		for start: int in data.starts:
 			if !data.numbers.has(index):
 				data.numbers[index] = []
-			var snippet: String = "%-*s" % [data.length[index], row.substr(start, data.length[index])]
+			var snippet: String = (
+				"%-*s" % [data.length[index], row.substr(start, data.length[index])]
+			)
 			data.numbers[index].append(snippet)
 			index += 1
 
 	if cephalopod:
 		var replacement_numbers: Dictionary = {}
 		for index in range(data.symbols.size()):
-			var numbers:Array = data.numbers[index]
-			var new_numbers:Dictionary = {}
-			for number:String in numbers:
-				for char_index:int in number.length():
+			var numbers: Array = data.numbers[index]
+			var new_numbers: Dictionary = {}
+			for number: String in numbers:
+				for char_index: int in number.length():
 					if !new_numbers.has(char_index):
 						new_numbers[char_index] = ""
 					new_numbers[char_index] += number[char_index]
@@ -61,23 +63,25 @@ static func parse_numbers_and_symbols(raw: String, cephalopod: bool = false) -> 
 
 	return data
 
+
 static func calculate_problem(data: Dictionary, index: int) -> int:
-	var symbol:String = data.symbols[index]
-	var numbers:Array = data.numbers[index]
-	if symbol == '*':
-		var product:int = 1
-		for number:String in numbers:
+	var symbol: String = data.symbols[index]
+	var numbers: Array = data.numbers[index]
+	if symbol == "*":
+		var product: int = 1
+		for number: String in numbers:
 			product *= int(number)
 		return product
-	if symbol == '+':
-		var sum:int = 0
-		for number:String in numbers:
+	if symbol == "+":
+		var sum: int = 0
+		for number: String in numbers:
 			sum += int(number)
 		return sum
 	return 0
 
+
 static func calculate_problem_sums(data: Dictionary) -> int:
-	var sum:int = 0
+	var sum: int = 0
 	for index in range(data.symbols.size()):
 		sum += calculate_problem(data, index)
 	return sum
