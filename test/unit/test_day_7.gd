@@ -54,5 +54,21 @@ func test_count_splits() -> void:
 		Helpers.get_text_file_content("res://day_07/day_7_input.txt")
 	)
 	sparse_grid = Day7.process_all_lines(sparse_grid)
-	print(Helpers.sparse_grid_render(sparse_grid))
+	#print(Helpers.sparse_grid_render(sparse_grid))
 	assert_eq(Day7.count_splits(sparse_grid), 1687)
+
+func test_build_tree_from_grid_sample() -> void:
+	var sparse_grid: Dictionary = Helpers.sparse_grid_from_raw(
+		Helpers.get_text_file_content("res://day_07/day_7_input_sample.txt")
+	)
+	sparse_grid = Day7.process_all_lines(sparse_grid)
+	var root:SimpleTree = Day7.build_tree_from_grid(sparse_grid)
+	assert_eq(root.count_paths_from_this_node(), 40)
+
+func test_build_tree_from_grid() -> void:
+	var sparse_grid: Dictionary = Helpers.sparse_grid_from_raw(
+		Helpers.get_text_file_content("res://day_07/day_7_input.txt")
+	)
+	sparse_grid = Day7.process_all_lines(sparse_grid)
+	var root:SimpleTree = Day7.build_tree_from_grid(sparse_grid)
+	assert_eq(root.count_paths_from_this_node(), 390684413472684)
